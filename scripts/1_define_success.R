@@ -27,18 +27,4 @@ playlist.update <- playlist %>%
            kpi = (mau_previous_month + mau + next_m_au) * monthly_stream30s_per_follower) %>%
     select(-owner_country)
 
-explore <- select(playlist.update, mau, mau_previous_month, mau_both_months, monthly_stream30s, 
-                  monthly_owner_stream30s, monthly_stream30s_per_follower, next_m_au, kpi)
-prev.zero <- filter(playlist.update, mau_previous_month == 0)
-
-ten.k.songs <- filter(playlist.update, n_tracks <= 10000)
-
-hist(log(playlist.update$kpi), breaks = 150)
-
-one.artist <- filter(playlist.update, n_artists == 1)
-
-spotify <- filter(playlist.update, owner == "spotify")
-non.spotify <- filter(playlist.update, owner != 'spotify')
-
-ggplot(non.spotify, aes(x = genre_1, y = kpi)) + geom_bar(stat = 'identity') + theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggplot(non.spotify, aes(x = mood_1, y = kpi)) + geom_bar(stat = 'identity') + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+save(playlist.update, file = './data/playlist.update.RData')
